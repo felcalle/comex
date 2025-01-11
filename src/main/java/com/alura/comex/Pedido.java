@@ -59,4 +59,17 @@ public class Pedido {
                 '}';
     }
 
+    public BigDecimal getValorTotal() {
+
+    }
+    public Boolean isMasBaratoQue(Pedido otroPedido){
+
+    }
+
+    public Boolean isMasCaroQue(){
+
+    }
+
+
+
 }
