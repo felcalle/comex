@@ -1,5 +1,7 @@
 package com.alura.comex;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -59,17 +61,23 @@ public class Pedido {
                 '}';
     }
 
-    public BigDecimal getValorTotal() {
-
-    }
-    public Boolean isMasBaratoQue(Pedido otroPedido){
-
+    public BigDecimal getValorTotal(@NotNull Pedido pedido, BigDecimal totalX) {
+        totalX = totalX.add(pedido.getPrecio().multiply(new BigDecimal(pedido.getCantidad())));
+        return totalX;
     }
 
-    public Boolean isMasCaroQue(){
-
+    static Pedido isMasBaratoQue(Pedido pedidoMasBarato, Pedido pedidoActual) {
+        if (pedidoMasBarato == null || pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())).compareTo(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad()))) < 0) {
+            pedidoMasBarato = pedidoActual;
+        }
+        return pedidoMasBarato;
     }
-
+    static Pedido isMasCaroQue(Pedido pedidoMasCaro, Pedido pedidoActual) {
+        if (pedidoMasCaro == null || pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())).compareTo(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad()))) > 0) {
+            pedidoMasCaro = pedidoActual;
+        }
+        return pedidoMasCaro;
+    }
 
 
 }
