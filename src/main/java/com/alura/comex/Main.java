@@ -19,11 +19,9 @@ public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         extracted(pedidos);
-
         BigDecimal totalpedido = BigDecimal.ZERO;
         int totalDeProductosVendidos = 0;
         int totalDePedidosRealizados = 0;
-        BigDecimal montoDeVentas = BigDecimal.ZERO;
         Pedido pedidoMasBarato = null;
         Pedido pedidoMasCaro = null;
 
@@ -34,20 +32,14 @@ public class Main {
 
         for (int i = 0; i < pedidos.size(); i++) {
             Pedido pedidoActual = pedidos.get(i);
-
             if (pedidoActual == null) {
                 break;
             }
-
             pedidoMasBarato = Pedido.isMasBaratoQue(pedidoMasBarato, pedidoActual);
             pedidoMasCaro = isMasCaroQue(pedidoMasCaro, pedidoActual);
-
             totalpedido= pedidoActual.getValorTotal(pedidoActual, totalpedido);
-
         }
 
-
-        System.out.println("cantidad de pedidos: " + totalPedidosRealizados);
         System.out.println("#### INFORME DE VALORES TOTALES");
         System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", totalPedidosRealizados);
         System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %s\n",totalProductosVendidos );
@@ -56,8 +48,4 @@ public class Main {
         System.out.printf("- PEDIDO MAS BARATO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasBarato.getProducto());
         System.out.printf("- PEDIDO MAS CARO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasCaro.getProducto());
     }
-
-
-
-
 }

@@ -6,12 +6,12 @@ import static com.alura.comex.ProcesadorDeCsv.extracted;
 
 public  class InformeSintetico {
 
-    BigDecimal ventasTotal = BigDecimal.ZERO;
-    int cantidadProductosVendidos=0;
-    int pedidosRealizados = 0;
-    Pedido pedidoMasBarato = null;
-    Pedido pedidoMasCaro = null;
-    int totalCategorias = 0;
+   private BigDecimal ventasTotal = BigDecimal.ZERO;
+   private   int cantidadProductosVendidos=0;
+   private   int pedidosRealizados = 0;
+   private   Pedido pedidoMasBarato = null;
+   private Pedido pedidoMasCaro = null;
+   private int totalCategorias = 0;
 
     CategoriasProcesadas categoriasProcesadas = new CategoriasProcesadas();
     public InformeSintetico(int totalCategorias) {

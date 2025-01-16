@@ -10,11 +10,10 @@ public class Pedido {
     private String categoria;
     private String producto;
     private String cliente;
-
     private BigDecimal precio;
     private int cantidad;
-
     private LocalDate fecha;
+
 
     public Pedido(String categoria, String producto, String cliente, BigDecimal precio, int cantidad, LocalDate fecha) {
         this.categoria = categoria;
@@ -68,6 +67,7 @@ public class Pedido {
     }
 
     static Pedido isMasBaratoQue(Pedido pedidoMasBarato, Pedido pedidoActual) {
+
         if (pedidoMasBarato == null || pedidoActual.getPrecio().multiply(new BigDecimal(pedidoActual.getCantidad())).compareTo(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad()))) < 0) {
             pedidoMasBarato = pedidoActual;
         }
