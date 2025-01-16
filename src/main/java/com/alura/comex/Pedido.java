@@ -61,6 +61,7 @@ public class Pedido {
                 '}';
     }
 
+
     public BigDecimal getValorTotal(@NotNull Pedido pedido, BigDecimal totalX) {
         totalX = totalX.add(pedido.getPrecio().multiply(new BigDecimal(pedido.getCantidad())));
         return totalX;

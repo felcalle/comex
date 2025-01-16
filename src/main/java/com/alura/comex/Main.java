@@ -27,8 +27,10 @@ public class Main {
         Pedido pedidoMasBarato = null;
         Pedido pedidoMasCaro = null;
 
-        CategoriasProcesadas categoriasProcesadas = new CategoriasProcesadas();
-        int totalDeCategorias = 0;
+        InformeSintetico informe=new InformeSintetico(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato,pedidoMasCaro, pedidos);
+        int totalProductosVendidos = informe.getCantidadProductosVendidos();
+        int totalPedidosRealizados= informe.getTotalCategorias();
+        int totalDeCategorias = informe.getTotalCategorias();
 
         for (int i = 0; i < pedidos.size(); i++) {
             Pedido pedidoActual = pedidos.get(i);
@@ -41,17 +43,14 @@ public class Main {
             pedidoMasCaro = isMasCaroQue(pedidoMasCaro, pedidoActual);
 
             totalpedido= pedidoActual.getValorTotal(pedidoActual, totalpedido);
-            totalDeProductosVendidos += pedidoActual.getCantidad();
-            totalDePedidosRealizados++;
 
-            if (!categoriasProcesadas.contains(pedidoActual.getCategoria())) {
-              totalDeCategorias++;
-              categoriasProcesadas.add(pedidoActual.getCategoria());
-            }
         }
+
+
+        System.out.println("cantidad de pedidos: " + totalPedidosRealizados);
         System.out.println("#### INFORME DE VALORES TOTALES");
-        System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", totalDePedidosRealizados);
-        System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %s\n", totalDeProductosVendidos);
+        System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", totalPedidosRealizados);
+        System.out.printf("- TOTAL DE PRODUCTOS VENDIDOS: %s\n",totalProductosVendidos );
         System.out.printf("- TOTAL DE CATEGORIAS: %s\n", totalDeCategorias);
         System.out.printf("- MONTO DE VENTAS: %s\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(totalpedido.setScale(2, RoundingMode.HALF_DOWN))); //Pueden cambiar el Locale a la moneda de su pais, siguiendo esta documentación: https://www.oracle.com/java/technologies/javase/java8locales.html
         System.out.printf("- PEDIDO MAS BARATO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasBarato.getProducto());
