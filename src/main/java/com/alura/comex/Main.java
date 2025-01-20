@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,18 +28,14 @@ public class Main {
 
         InformeSintetico informe=new InformeSintetico(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato,pedidoMasCaro, pedidos);
         int totalProductosVendidos = informe.getCantidadProductosVendidos();
-        int totalPedidosRealizados= informe.getTotalCategorias();
+        int totalPedidosRealizados= informe.getPedidosRealizados();
         int totalDeCategorias = informe.getTotalCategorias();
+        pedidoMasBarato= informe.getPedidoMasBarato();
+        pedidoMasCaro= informe.getPedidoMasCaro();
+        totalpedido= informe.getVentasTotal();
+        Cliente informeClientes=new Cliente(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato, pedidoMasCaro, pedidos);
 
-        for (int i = 0; i < pedidos.size(); i++) {
-            Pedido pedidoActual = pedidos.get(i);
-            if (pedidoActual == null) {
-                break;
-            }
-            pedidoMasBarato = Pedido.isMasBaratoQue(pedidoMasBarato, pedidoActual);
-            pedidoMasCaro = isMasCaroQue(pedidoMasCaro, pedidoActual);
-            totalpedido= pedidoActual.getValorTotal(pedidoActual, totalpedido);
-        }
+
 
         System.out.println("#### INFORME DE VALORES TOTALES");
         System.out.printf("- TOTAL DE PEDIDOS REALIZADOS: %s\n", totalPedidosRealizados);

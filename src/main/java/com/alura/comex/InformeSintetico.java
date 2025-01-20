@@ -2,6 +2,8 @@ package com.alura.comex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import static com.alura.comex.Pedido.isMasCaroQue;
 import static com.alura.comex.ProcesadorDeCsv.extracted;
 
 public  class InformeSintetico {
@@ -12,14 +14,12 @@ public  class InformeSintetico {
    private   Pedido pedidoMasBarato = null;
    private Pedido pedidoMasCaro = null;
    private int totalCategorias = 0;
+   ArrayList<Pedido> totalPedidos = new ArrayList<>();
+   CategoriasProcesadas categoriasProcesadas = new CategoriasProcesadas();
 
-    CategoriasProcesadas categoriasProcesadas = new CategoriasProcesadas();
     public InformeSintetico(int totalCategorias) {
         this.totalCategorias = totalCategorias;
     }
-
-    ArrayList<Pedido> totalPedidos = new ArrayList<>();
-
 
     public InformeSintetico(BigDecimal ventasTotal, int cantidadProductosVendidos, int pedidosRealizados, Pedido pedidoMasBarato, Pedido pedidoMasCaro, ArrayList<Pedido> totalPedidos) {
         this.ventasTotal = ventasTotal;
@@ -30,21 +30,11 @@ public  class InformeSintetico {
         this.totalPedidos = totalPedidos;
     }
 
-    public int getCantidadProductosVendidos() {
-        for (Pedido pedido : totalPedidos) {
-            cantidadProductosVendidos += pedido.getCantidad();
-        }
-        return cantidadProductosVendidos;
-    }
-
-
-    public int getPedidosRealizados() {
-        for (Pedido pedido : totalPedidos) {
-            pedidosRealizados++;
-        }
-        return pedidosRealizados;
-    }
-
+    public int getCantidadProductosVendidos() {totalPedidos.forEach(pedido -> cantidadProductosVendidos += pedido.getCantidad()); return cantidadProductosVendidos;}
+    public int getPedidosRealizados() {totalPedidos.forEach(pedido -> pedidosRealizados++); return pedidosRealizados;}
+    public BigDecimal getVentasTotal() {totalPedidos.forEach(pedido -> ventasTotal=pedido.getValorTotal(pedido, ventasTotal)); return ventasTotal;}
+    public Pedido getPedidoMasBarato() {totalPedidos.forEach(pedido -> pedidoMasBarato= Pedido.isMasBaratoQue(pedidoMasBarato, pedido));return pedidoMasBarato;}
+    public Pedido getPedidoMasCaro() {totalPedidos.forEach(pedido ->pedidoMasCaro= isMasCaroQue(pedidoMasCaro, pedido) );return pedidoMasCaro;}
     public int getTotalCategorias() {
         for (Pedido pedido : totalPedidos) {
             pedidosRealizados++;
@@ -55,6 +45,4 @@ public  class InformeSintetico {
         }
         return totalCategorias;
     }
-
-
 }
