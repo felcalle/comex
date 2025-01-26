@@ -4,48 +4,77 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Pedido {
-
     private String categoria;
     private String producto;
-    private String cliente;
     private BigDecimal precio;
     private int cantidad;
     private LocalDate fecha;
+    private String cliente;
+    public Pedido() {}
 
-
-    public Pedido(String categoria, String producto, String cliente, BigDecimal precio, int cantidad, LocalDate fecha) {
+    // Constructor ideal para el JSON proporcionado
+    public Pedido(String categoria, String producto, BigDecimal precio, int cantidad, String fecha, String cliente) {
         this.categoria = categoria;
         this.producto = producto;
-        this.cliente = cliente;
         this.precio = precio;
         this.cantidad = cantidad;
-        this.fecha = fecha;
+        // Convertir la fecha del formato "dd/MM/yyyy" a LocalDate
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.fecha = LocalDate.parse(fecha, formatter);
+        this.cliente = cliente;
     }
 
+    // Getters y Setters
     public String getCategoria() {
         return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getProducto() {
         return producto;
     }
 
-    public String getCliente() {
-        return cliente;
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public BigDecimal getPrecio() {
         return precio;
     }
 
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
     public int getCantidad() {
         return cantidad;
     }
 
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public LocalDate getFecha() {
         return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.fecha = LocalDate.parse(fecha, formatter);
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
     @Override
@@ -53,12 +82,13 @@ public class Pedido {
         return "Pedido{" +
                 "categoria='" + categoria + '\'' +
                 ", producto='" + producto + '\'' +
-                ", cliente='" + cliente + '\'' +
                 ", precio=" + precio +
                 ", cantidad=" + cantidad +
                 ", fecha=" + fecha +
+                ", cliente='" + cliente + '\'' +
                 '}';
     }
+
 
 
     public BigDecimal getValorTotal(@NotNull Pedido pedido, BigDecimal totalX) {

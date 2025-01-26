@@ -4,16 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.sql.SQLOutput;
 import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.alura.comex.Pedido.isMasCaroQue;
-import static com.alura.comex.ProcesadorDeCsv.extracted;
+import static com.alura.comex.ProcesadorDeJSON.extracted;
 
 public class Main {
 

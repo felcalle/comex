@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static com.alura.comex.Pedido.isMasCaroQue;
-import static com.alura.comex.ProcesadorDeCsv.extracted;
 
 public  class InformeSintetico {
 
