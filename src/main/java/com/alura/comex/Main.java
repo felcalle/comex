@@ -7,27 +7,62 @@ import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.util.*;
 
-import static com.alura.comex.ProcesadorDeJSON.extracted;
 
 public class Main {
 
+
     public static void main(String[] args) throws IOException, URISyntaxException {
-        ArrayList<Pedido> pedidos = new ArrayList<>();
-        extracted(pedidos);
+        Scanner scanner = new Scanner(System.in);
+        int option;
+        ArrayList<Pedido> pedidosJ = null;
+        Pedido pedidosX = null;
+        ArrayList<Pedido> pedidosC = null;
+        ArrayList<Pedido> pedidosGenericos = null;
+
+        do {
+            System.out.println("\n SELECCIONA EL TIPO DE ARCHIVO A PROCESAR: ");
+            System.out.println("1. Tipo de archivo JSON");
+            System.out.println("2. Tipo de archivo CSV");
+            System.out.println("3. Tipo de archivo XML");
+            System.out.println("4. Salir del programa");
+
+            switch (option = scanner.nextInt()) {
+                case 1:
+                    pedidosGenericos= (ArrayList<Pedido>) ProcesadorDeJSON.processJson("src/main/resources/pedidos.json");
+                    System.out.println("Ingresa 5 + Enter para ir a informe");
+                    option = scanner.nextInt();
+                    break;
+                case 2:
+                    processCsv("pedidos.csv");
+                    break;
+                case 3:
+                    pedidosX=ProcesadorDeXML.processXml("src/main/resources/pedidos.xml");
+
+
+                case 4:
+                    System.out.println("Salir del programa");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+            }
+        } while (option!=5);
+
         BigDecimal totalpedido = BigDecimal.ZERO;
         int totalDeProductosVendidos = 0;
         int totalDePedidosRealizados = 0;
         Pedido pedidoMasBarato = null;
         Pedido pedidoMasCaro = null;
 
-        InformeSintetico informe=new InformeSintetico(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato,pedidoMasCaro, pedidos);
+
+        InformeSintetico informe=new InformeSintetico(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato,pedidoMasCaro, pedidosGenericos);
         int totalProductosVendidos = informe.getCantidadProductosVendidos();
         int totalPedidosRealizados= informe.getPedidosRealizados();
         int totalDeCategorias = informe.getTotalCategorias();
         pedidoMasBarato= informe.getPedidoMasBarato();
         pedidoMasCaro= informe.getPedidoMasCaro();
         totalpedido= informe.getVentasTotal();
-        Cliente informeClientes=new Cliente(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato, pedidoMasCaro, pedidos);
+        Cliente informeClientes=new Cliente(totalpedido, totalDeProductosVendidos, totalDePedidosRealizados, pedidoMasBarato, pedidoMasCaro, pedidosGenericos);
 
 
 
@@ -39,4 +74,11 @@ public class Main {
         System.out.printf("- PEDIDO MAS BARATO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasBarato.getPrecio().multiply(new BigDecimal(pedidoMasBarato.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasBarato.getProducto());
         System.out.printf("- PEDIDO MAS CARO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasCaro.getProducto());
     }
+
+    public static void processXml(String s) {
+    }
+
+    public static void processCsv(String s) {
+    }
+
 }

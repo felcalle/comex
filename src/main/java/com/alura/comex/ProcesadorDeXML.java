@@ -1,35 +1,30 @@
 package com.alura.comex;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.net.URL;
-import java.nio.file.Path;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
+import java.nio.file.Paths;
+import java.util.Collections;
 
 public class ProcesadorDeXML {
-    public static void main(String[] args) {
+    public static Pedido processXml(String filePath) {
+        File file = Paths.get(filePath).toFile();
+
+        if (!file.exists() || !file.isFile()) {
+            System.err.println("❌ Error: El archivo XML no existe o no es un archivo válido en la ruta: " + filePath);
+            return null;
+        }
+
         try {
-            // Configuración del mapper XML
-            XmlMapper xmlMapper = new XmlMapper();
-
-            // Configurar el formato de fecha (si es necesario)
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            xmlMapper.setDateFormat(new java.text.SimpleDateFormat("dd/MM/yyyy"));
-
-            // Ruta del archivo XML
-            File archivoXml = new File("src/main/resources/pedidos.xml");
-            ContenedorPedidos contenedor= xmlMapper.readValue(archivoXml, ContenedorPedidos.class);
-            // Deserializar el archivo XML a un objeto Pedido
-
-            // Imprimir el objeto deserializado
-            System.out.println(contenedor.getPedidos());
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            JAXBContext context = JAXBContext.newInstance(Pedido.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            Pedido pedido = (Pedido) unmarshaller.unmarshal(file);
+            System.out.println("✅ XML procesado con éxito. Pedido:");
+            return pedido;
+        } catch (JAXBException e) {
+            System.err.println("❌ Error al procesar XML: " + e.getMessage());
+            return null;
         }
     }
 }

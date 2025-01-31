@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,32 +16,25 @@ import java.util.List;
 
 public class ProcesadorDeJSON {
 
-    static void extracted(ArrayList<Pedido> pedidos) {
+    public static List<Pedido> processJson(String filePath) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            System.out.println("❌ Error: El archivo JSON no existe en la ruta especificada: " + filePath);
+            return null;
+        }
+
         try {
-            URL recursoJSON = ClassLoader.getSystemResource("pedidos.json");
-            Path caminoDelArchivo = caminoDelArchivo = Path.of(recursoJSON.toURI());
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.findAndRegisterModules();
-
-            Collection<?> pedidosLeidos = objectMapper.readValue(
-                    caminoDelArchivo.toFile(),
-                    new TypeReference<List<Pedido>>() {}
-            );
-
-            // Agregar los pedidos leídos a la lista proporcionada
-            pedidos.addAll((Collection<? extends Pedido>) pedidosLeidos);
-            } catch (StreamReadException ex) {
-            throw new RuntimeException(ex);
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        } catch (DatabindException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            List<Pedido> pedidoList = objectMapper.readValue(file, new TypeReference<List<Pedido>>() {});
+            System.out.println("✅ JSON procesado con éxito. Lista de personas:");
+            for (Pedido p : pedidoList) {
+                System.out.println(p);
+            }
+            return pedidoList;
+        } catch (Exception e) {
+            System.out.println("❌ Error al procesar JSON: " + e.getMessage());
+            return null;
         }
     }
-    }
-
-
-
-
+}
