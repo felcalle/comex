@@ -1,30 +1,23 @@
 package com.alura.comex;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
-import java.nio.file.Paths;
-import java.util.Collections;
+import java.io.IOException;
 
 public class ProcesadorDeXML {
-    public static Pedido processXml(String filePath) {
-        File file = Paths.get(filePath).toFile();
 
-        if (!file.exists() || !file.isFile()) {
-            System.err.println("❌ Error: El archivo XML no existe o no es un archivo válido en la ruta: " + filePath);
-            return null;
-        }
+    private static final String FILE_PATH = "src/main/resources/pedidos.xml";
 
-        try {
-            JAXBContext context = JAXBContext.newInstance(Pedido.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            Pedido pedido = (Pedido) unmarshaller.unmarshal(file);
-            System.out.println("✅ XML procesado con éxito. Pedido:");
-            return pedido;
-        } catch (JAXBException e) {
-            System.err.println("❌ Error al procesar XML: " + e.getMessage());
-            return null;
-        }
+    // Serializa una lista de pedidos a XML
+    public static void serializeToXml(ListaPedidos listaPedidos) throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.writeValue(new File(FILE_PATH), listaPedidos);
+        System.out.println("Lista de pedidos serializada a " + FILE_PATH);
+    }
+
+    // Deserializa el XML a una lista de pedidos
+    public static ListaPedidos deserializeFromXml() throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+        return xmlMapper.readValue(new File(FILE_PATH), ListaPedidos.class);
     }
 }

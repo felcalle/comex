@@ -1,19 +1,26 @@
 package com.alura.comex;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.jetbrains.annotations.NotNull;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@XmlRootElement
 public class Pedido {
+
     private String categoria;
     private String producto;
     private BigDecimal precio;
     private int cantidad;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha;
     private String cliente;
+
+    // Constructor sin parámetros (para JAXB)
     public Pedido() {}
 
     // Constructor ideal para el JSON proporcionado
@@ -28,7 +35,7 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    // Getters y Setters
+    @XmlElement
     public String getCategoria() {
         return categoria;
     }
@@ -37,6 +44,7 @@ public class Pedido {
         this.categoria = categoria;
     }
 
+    @XmlElement
     public String getProducto() {
         return producto;
     }
@@ -45,6 +53,7 @@ public class Pedido {
         this.producto = producto;
     }
 
+    @XmlElement
     public BigDecimal getPrecio() {
         return precio;
     }
@@ -53,6 +62,7 @@ public class Pedido {
         this.precio = precio;
     }
 
+    @XmlElement
     public int getCantidad() {
         return cantidad;
     }
@@ -61,6 +71,7 @@ public class Pedido {
         this.cantidad = cantidad;
     }
 
+    @XmlElement
     public LocalDate getFecha() {
         return fecha;
     }
@@ -70,6 +81,7 @@ public class Pedido {
         this.fecha = LocalDate.parse(fecha, formatter);
     }
 
+    @XmlElement
     public String getCliente() {
         return cliente;
     }
@@ -91,6 +103,9 @@ public class Pedido {
     }
 
 
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
     public BigDecimal getValorTotal(@NotNull Pedido pedido, BigDecimal totalX) {
         totalX = totalX.add(pedido.getPrecio().multiply(new BigDecimal(pedido.getCantidad())));

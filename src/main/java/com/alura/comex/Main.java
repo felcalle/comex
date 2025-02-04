@@ -1,5 +1,7 @@
 package com.alura.comex;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,7 +17,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int option;
         ArrayList<Pedido> pedidosJ = null;
-        Pedido pedidosX = null;
+        ListaPedidos listaPedidos = null;
         ArrayList<Pedido> pedidosC = null;
         ArrayList<Pedido> pedidosGenericos = null;
 
@@ -36,7 +38,18 @@ public class Main {
                     processCsv("pedidos.csv");
                     break;
                 case 3:
-                    pedidosX=ProcesadorDeXML.processXml("src/main/resources/pedidos.xml");
+                    try {
+                        listaPedidos= ProcesadorDeXML.deserializeFromXml();
+                        for (Pedido pedido : listaPedidos.getPedido()) {
+                            System.out.println(pedido);
+                        }
+
+
+                    }
+
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
 
                 case 4:
