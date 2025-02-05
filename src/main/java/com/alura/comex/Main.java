@@ -12,14 +12,11 @@ import java.util.*;
 
 public class Main {
 
-
     public static void main(String[] args) throws IOException, URISyntaxException {
         Scanner scanner = new Scanner(System.in);
         int option;
-        ArrayList<Pedido> pedidosJ = null;
-        ListaPedidos listaPedidos = null;
-        ArrayList<Pedido> pedidosC = null;
-        ArrayList<Pedido> pedidosGenericos = null;
+        ListaPedidos listaPedidos;
+        ArrayList<Pedido> pedidosGenericos = new ArrayList<>();
 
         do {
             System.out.println("\n SELECCIONA EL TIPO DE ARCHIVO A PROCESAR: ");
@@ -35,14 +32,23 @@ public class Main {
                     option = scanner.nextInt();
                     break;
                 case 2:
-                    processCsv("pedidos.csv");
-                    break;
+                    ProcesadorCSV procesador= new ProcesadorCSV("src/main/resources/pedidos.csv");
+                    pedidosGenericos.addAll(procesador.leerArchivoCSV());
+                    System.out.println("Lista de productos procesados:");
+                    for (Pedido producto : pedidosGenericos) {
+                        System.out.println(producto);
+                    }
+
                 case 3:
                     try {
                         listaPedidos= ProcesadorDeXML.deserializeFromXml();
                         for (Pedido pedido : listaPedidos.getPedido()) {
                             System.out.println(pedido);
                         }
+                        pedidosGenericos=new ArrayList<>(listaPedidos.getPedido());
+                        System.out.println("Ingresa 5 + Enter para ir a informe");
+                        option = scanner.nextInt();
+                        break;
 
 
                     }
@@ -88,8 +94,7 @@ public class Main {
         System.out.printf("- PEDIDO MAS CARO: %s (%s)\n", NumberFormat.getCurrencyInstance(new Locale("es", "AR")).format(pedidoMasCaro.getPrecio().multiply(new BigDecimal(pedidoMasCaro.getCantidad())).setScale(2, RoundingMode.HALF_DOWN)), pedidoMasCaro.getProducto());
     }
 
-    public static void processXml(String s) {
-    }
+
 
     public static void processCsv(String s) {
     }

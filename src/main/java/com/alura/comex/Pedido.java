@@ -24,10 +24,10 @@ public class Pedido {
     public Pedido() {}
 
     // Constructor ideal para el JSON proporcionado
-    public Pedido(String categoria, String producto, BigDecimal precio, int cantidad, String fecha, String cliente) {
+    public Pedido(String categoria, String producto, double precio, int cantidad, String fecha, String cliente) {
         this.categoria = categoria;
         this.producto = producto;
-        this.precio = precio;
+        this.precio = BigDecimal.valueOf(precio);
         this.cantidad = cantidad;
         // Convertir la fecha del formato "dd/MM/yyyy" a LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
