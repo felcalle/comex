@@ -1,4 +1,4 @@
-# Comex
+# Comex----->docker pull felcalle/comexaplication:latest
 
 ## Información general de los pedidos en _pedidos.csv_
 - Campos: **CATEGORIA, PRODUCTO, PRECIO, CANTIDAD, FECHA, CLIENTE**
