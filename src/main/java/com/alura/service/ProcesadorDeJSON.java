@@ -1,17 +1,10 @@
-package com.alura.comex;
+package com.alura.service;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.alura.comex.Pedido;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ProcesadorDeJSON {

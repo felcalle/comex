@@ -1,12 +1,13 @@
-package com.alura.comex;
+package com.alura.service;
 
+import com.alura.comex.ListaPedidos;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
 import java.io.IOException;
 
 public class ProcesadorDeXML {
 
-    private static final String FILE_PATH = "src/main/resources/pedidos.xml";
+    private static final String FILE_PATH = "/app/resources/pedidos.xml";
 
     // Serializa una lista de pedidos a XML
     public static void serializeToXml(ListaPedidos listaPedidos) throws IOException {

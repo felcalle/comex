@@ -1,6 +1,9 @@
 package com.alura.comex;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.alura.service.ProcesadorCSV;
+import com.alura.service.ProcesadorDeJSON;
+import com.alura.service.ProcesadorDeXML;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,6 +11,8 @@ import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.util.*;
+
+import static com.alura.comex.Procesador.procesarArchivos;
 
 
 public class Main {
@@ -18,54 +23,7 @@ public class Main {
         ListaPedidos listaPedidos;
         ArrayList<Pedido> pedidosGenericos = new ArrayList<>();
 
-        do {
-            System.out.println("\n SELECCIONA EL TIPO DE ARCHIVO A PROCESAR: ");
-            System.out.println("1. Tipo de archivo JSON");
-            System.out.println("2. Tipo de archivo CSV");
-            System.out.println("3. Tipo de archivo XML");
-            System.out.println("4. Salir del programa");
-
-            switch (option = scanner.nextInt()) {
-                case 1:
-                    pedidosGenericos= (ArrayList<Pedido>) ProcesadorDeJSON.processJson("src/main/resources/pedidos.json");
-                    System.out.println("Ingresa 5 + Enter para ir a informe");
-                    option = scanner.nextInt();
-                    break;
-                case 2:
-                    ProcesadorCSV procesador= new ProcesadorCSV("src/main/resources/pedidos.csv");
-                    pedidosGenericos.addAll(procesador.leerArchivoCSV());
-                    System.out.println("Lista de productos procesados:");
-                    for (Pedido producto : pedidosGenericos) {
-                        System.out.println(producto);
-                    }
-
-                case 3:
-                    try {
-                        listaPedidos= ProcesadorDeXML.deserializeFromXml();
-                        for (Pedido pedido : listaPedidos.getPedido()) {
-                            System.out.println(pedido);
-                        }
-                        pedidosGenericos=new ArrayList<>(listaPedidos.getPedido());
-                        System.out.println("Ingresa 5 + Enter para ir a informe");
-                        option = scanner.nextInt();
-                        break;
-
-
-                    }
-
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-
-                case 4:
-                    System.out.println("Salir del programa");
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
-            }
-        } while (option!=5);
+        pedidosGenericos = procesarArchivos(scanner, pedidosGenericos);
 
         BigDecimal totalpedido = BigDecimal.ZERO;
         int totalDeProductosVendidos = 0;
@@ -95,8 +53,5 @@ public class Main {
     }
 
 
-
-    public static void processCsv(String s) {
-    }
 
 }

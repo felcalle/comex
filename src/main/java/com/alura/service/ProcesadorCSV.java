@@ -1,4 +1,6 @@
-package com.alura.comex;
+package com.alura.service;
+
+import com.alura.comex.Pedido;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
